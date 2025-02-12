@@ -23,7 +23,7 @@ PASS_MIN_DAYS=$(grep -E "^PASS_MIN_DAYS" /etc/login.defs | awk '{print $2}')
 PASS_WARN_AGE=$(grep -E "^PASS_WARN_AGE" /etc/login.defs | awk '{print $2}')
 
 # Get username
-echo -e "${CYAN}👤Write the USERNAME👇🏻(e.g = soroush)${RESET}"
+echo -e "${CYAN}👤Write the USERNAME👇🏻(e.g : example)${RESET}"
 read -p "👤 Enter the username: " username
 
 # Check if user exists
