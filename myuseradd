@@ -1,0 +1,99 @@
+#!/bin/bash
+
+# Colors
+GREEN="\e[32m"
+YELLOW="\e[33m"
+CYAN="\e[36m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# Title
+clear
+echo -e "${CYAN}========================================${RESET}"
+echo -e "${GREEN}🚀 MyUserAdd - Interactive User Creator${RESET}"
+echo -e "${CYAN}========================================${RESET}\n"
+
+# Get default settings from /etc/default/useradd and /etc/login.defs
+default_home=$(grep -E "^HOME=" /etc/default/useradd | cut -d= -f2)
+default_shell=$(grep -E "^SHELL=" /etc/default/useradd | cut -d= -f2)
+
+# Read password expiry settings from /etc/login.defs
+PASS_MAX_DAYS=$(grep -E "^PASS_MAX_DAYS" /etc/login.defs | awk '{print $2}')
+PASS_MIN_DAYS=$(grep -E "^PASS_MIN_DAYS" /etc/login.defs | awk '{print $2}')
+PASS_WARN_AGE=$(grep -E "^PASS_WARN_AGE" /etc/login.defs | awk '{print $2}')
+
+# Get username
+echo -e "${CYAN}👤Write the USERNAME👇🏻(e.g = soroush)${RESET}"
+read -p "👤 Enter the username: " username
+
+# Check if user exists
+if id "$username" &>/dev/null; then
+    echo -e "${RED}❌ User already exists!${RESET}"
+    exit 1
+fi
+
+# Set home directory
+echo -e "${CYAN}🏠 Home directory (Default:$default_home)${RESET}"
+default_home="/home/$username"
+read -p "🏠 Home directory (Press Enter for default: $default_home): " home_dir
+home_dir=${home_dir:-$default_home}
+
+# Fetch available groups
+echo -e "${CYAN}👥 Available groups:${RESET}"
+cut -d: -f1 /etc/group | column
+read -p "📌 Primary group (Press Enter for default: $username): " primary_group
+primary_group="${primary_group:-$username}"
+
+# Get secondary groups
+read -p "➕ Secondary groups (Use (,) to separate or press Enter to skip): " sec_groups
+
+# Get available shells
+echo -e "${CYAN}🖥️ Available shells:${RESET}"
+cat /etc/shells | grep -v "#" | column
+read -p "💻 Preferred shell (Press Enter for default: $default_shell): " user_shell
+user_shell="${user_shell:-$default_shell}"
+
+# Get comment for the user
+read -p "💬 Enter a comment for the user (or press Enter to skip): " user_comment
+
+# Set password expiry settings
+read -p "🗓️ Set password expiry (e.g., 2025-12-31, or press Enter to skip): " user_expiry
+if [ -n "$user_expiry" ]; then
+    user_expiry_date=$(date -d "$user_expiry" "+%Y-%m-%d")
+else
+    user_expiry_date=""
+fi
+
+# Create user command
+cmd="useradd -m -d $home_dir -s $user_shell -g $primary_group"
+[ -n "$sec_groups" ] && cmd+=" -G $sec_groups"
+[ -n "$user_comment" ] && cmd+=" -c \"$user_comment\""
+cmd+=" $username"
+
+# Execute command
+echo -e "\n${YELLOW}🚀 Creating user with command:${RESET}"
+echo -e "${CYAN}$cmd${RESET}"
+eval "$cmd"
+
+# Set password and configure expiry
+echo -e "\n${YELLOW}🔑 Setting password for $username...${RESET}"
+passwd "$username"
+
+# Set password expiry (if provided)
+if [ -n "$user_expiry_date" ]; then
+    chage -E "$user_expiry_date" "$username"
+fi
+
+# Set password expiration, min/max days, and warn age
+if [ -n "$PASS_MAX_DAYS" ]; then
+    chage -M "$PASS_MAX_DAYS" "$username"
+fi
+if [ -n "$PASS_MIN_DAYS" ]; then
+    chage -m "$PASS_MIN_DAYS" "$username"
+fi
+if [ -n "$PASS_WARN_AGE" ]; then
+    chage -W "$PASS_WARN_AGE" "$username"
+fi
+
+# Success message
+echo -e "\n${GREEN}✅ User $username created successfully!${RESET}"
