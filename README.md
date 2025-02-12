@@ -32,26 +32,38 @@ Once installed, you can easily create a new user by running the following comman
 ========================================
 
 👤Write the USERNAME👇
+
 👤 Enter the username: soroush
+
 🏠 Home directory (Default:)
+
 🏠 Home directory (Press Enter for default: /home/soroush):
+
 👥 Available groups:
+
 sudo                 IT
 WEB                  ACCOUNTING
 DEVELOPER            root
+
 📌 Primary group (Press Enter for default: soroush): IT
+
 ➕ Secondary groups (Use (,) to separate or press Enter to skip): WEB,DEVELOPER,sudo
 🖥️ Available shells:
+
 /bin/sh         /usr/bin/bash   /usr/bin/rbash  /bin/dash
 /bin/bash       /bin/rbash      /usr/bin/sh     /usr/bin/dash
 💻 Preferred shell (Press Enter for default: /bin/bash):
+
 💬 Enter a comment for the user (or press Enter to skip): soroush gadget
+
 🗓️ Set password expiry (e.g., 2025-12-31, or press Enter to skip): 2025-06-01
 
 🚀 Creating user with command:
+
 useradd -m -d /home/soroush -s /bin/bash -g IT -G WEB,DEVELOPER,sudo -c "soroush gadget" soroush
 
 🔑 Setting password for soroush...
+
 New password: (write PASSWORD)
 Retype new password: (rewrite PASSWORD)
 passwd: password updated successfully
