@@ -17,20 +17,46 @@ To install `EasyUserAdd`, follow these steps:
 3. After installation, you can verify that the script is successfully installed by running:
 
    ```bash
-   myuseradd --help
+   myuseradd
    ```
 
 ## 🚀 How to Use
 
 Once installed, you can easily create a new user by running the following command:
 
-```bash
-sudo myuseradd -u <USER_ID> -g <PRIMARY_GROUP> -c '<USER_COMMENT>' -d <HOME_DIRECTORY> -s <SHELL> <USERNAME>
-```
 
 ### Example:
 ```bash
-sudo myuseradd -u 1001 -g users -c 'Test User' -d /home/testuser -s /bin/bash testuser
+========================================
+🚀 MyUserAdd - Interactive User Creator
+========================================
+
+👤Write the USERNAME👇
+👤 Enter the username: soroush
+🏠 Home directory (Default:)
+🏠 Home directory (Press Enter for default: /home/soroush):
+👥 Available groups:
+sudo                 IT
+WEB                  ACCOUNTING
+DEVELOPER            root
+📌 Primary group (Press Enter for default: soroush): IT
+➕ Secondary groups (Use (,) to separate or press Enter to skip): WEB,DEVELOPER,sudo
+🖥️ Available shells:
+/bin/sh         /usr/bin/bash   /usr/bin/rbash  /bin/dash
+/bin/bash       /bin/rbash      /usr/bin/sh     /usr/bin/dash
+💻 Preferred shell (Press Enter for default: /bin/bash):
+💬 Enter a comment for the user (or press Enter to skip): soroush gadget
+🗓️ Set password expiry (e.g., 2025-12-31, or press Enter to skip): 2025-06-01
+
+🚀 Creating user with command:
+useradd -m -d /home/soroush -s /bin/bash -g IT -G WEB,DEVELOPER,sudo -c "soroush gadget" soroush
+
+🔑 Setting password for soroush...
+New password: (write PASSWORD)
+Retype new password: (rewrite PASSWORD)
+passwd: password updated successfully
+
+✅ User soroush created successfully!
 ```
 
 This command will:
