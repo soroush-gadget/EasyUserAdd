@@ -11,8 +11,12 @@ To install `EasyUserAdd`, follow these steps:
 
    ```bash
    curl -sSL https://https://github.com/soroush-gadget/EasyUserAdd/blob/main/myuseradd -o /usr/local/bin/myuseradd
+   ```
+      ```bash
    sudo chmod +x /usr/local/bin/myuseradd
    ```
+   sudo chmod +x /usr/local/bin/myuseradd
+   
 
 3. After installation, you can verify that the script is successfully installed by running:
 
