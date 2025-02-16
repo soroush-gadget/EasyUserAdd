@@ -14,8 +14,7 @@ To install `EasyUserAdd`, follow these steps:
    ```
       ```bash
    sudo chmod +x /usr/local/bin/myuseradd
-   ```
-   sudo chmod +x /usr/local/bin/myuseradd
+   ```
    
 
 3. After installation, you can verify that the script is successfully installed by running:
