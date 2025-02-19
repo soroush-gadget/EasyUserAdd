@@ -1,6 +1,6 @@
 # EasyUserAdd - Interactive User Creation Script
 
-**easyuseradd** is a powerful yet simple bash script that allows administrators to create new users with customizable options, including home directory, shell, user comment, and password expiry settings. It also provides a step-by-step interactive setup, making it easy to configure users according to system defaults or custom preferences.
+**easy user add** is a powerful yet simple bash script that allows administrators to create new users with customizable options, including home directory, shell, user comment, and password expiry settings. It also provides a step-by-step interactive setup, making it easy to configure users according to system defaults or custom preferences.
 
 ## 📥 Installation
 
